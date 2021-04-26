@@ -1,4 +1,4 @@
-class GotService {
+export default class GotService {
 
     constructor () {
       this._apiBase = 'https://www.anapioficeandfire.com/api';
@@ -15,12 +15,14 @@ class GotService {
       return await res.json();
     }
   
-    getAllCharacters() {
-      return this.getResource('/characters?page=5&pageSize=10')
+    async getAllCharacters() {
+      const result = await this.getResource('/characters?page=5&pageSize=10');
+      return result.map(this._transformCharacter);
     }
     //напишем функцию, которая будет находить определенного персонажа по какому-то ид. Путь к ид надо узнать из документации.
-    getCharacter(id) {
-        return this.getResource(`/characters/${id}`)
+    async getCharacter(id) {
+      const character = await this.getResource(`/characters/${id}`);
+      return this._transformCharacter(character);
       }
     
       getAllBooks() {
@@ -38,14 +40,42 @@ class GotService {
       getHouse(id){
           return this.getResource(`/houses/${id}`);
       }
+
+      _transformCharacter (char) {
+      
+        for (let key in char) {
+          if (char[key] == '') {
+            char[key]= 'n/a'
+          }
+         
+        }
+        return {
+          name: char.name,
+          gender: char.gender,
+          born: char.born,
+          died: char.died,
+          culture: char.culture
+        }
+      }
+
+      _transformHouse(house) {
+        return {
+          name: house.name,
+          region: house.region,
+          words: house.words,
+          titles: house.titles,
+          overlord: house.overlord,
+          ancestralWeapons: house.ancestralWeapons,
+        }
+      }
+
+      _transformBook(book) {
+        return {
+          name: book.name,
+          numberOfPages: book.numberOfPages,
+          publiser: book.publiser,
+          released: book.released,
+        }
+      }
   }
   
-  const got = new GotService();
-  got.getAllCharacters()
-    .then((res) => (res.forEach(item => {
-      console.log(item.name);
-    })
-    )); // но это не особо правильно, ткак как каждый раз будет вызываться функция? повторяться участок кода с текстом ссылки. (поэтому создаю конструктор выше.)
-    
-  got.getCharacter(130)
-    .then((res) => console.log(res));
