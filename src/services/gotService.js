@@ -5,7 +5,7 @@ export default class GotService {
     }
   
   
-    async getResource(url){   //и использовать апибэйс можно в методе фетч
+    getResource = async (url) => {   //и использовать апибэйс можно в методе фетч
       const res = await fetch(`${this._apiBase}${url}`); //для выполнения этой операции за знаком равно необходимо какое-то время
   
       if (!res.ok) { //у нашего ответа сервера (res) есть метод ок. Означает, что мы хоть что-то получили,  а не ошибку.
@@ -15,30 +15,39 @@ export default class GotService {
       return await res.json();
     }
   
-    async getAllCharacters() {
-      const result = await this.getResource('/characters?page=5&pageSize=10');
-      return result.map(this._transformCharacter);
+    getAllCharacters = async() => {
+      const res = await this.getResource('/characters?page=5&pageSize=10');
+      return res.map(this._transformCharacter);
     }
     //напишем функцию, которая будет находить определенного персонажа по какому-то ид. Путь к ид надо узнать из документации.
-    async getCharacter(id) {
+    getCharacter = async(id) => {
       const character = await this.getResource(`/characters/${id}`);
       return this._transformCharacter(character);
       }
     
-      getAllBooks() {
-        return this.getResource('/books');
-      }
+      getAllBooks = async () => {
+        const res = await this.getResource(`/books/`);
+        return res.map(this._transformBook);
+        }
     
-      getBook(id){
-          return this.getResource(`/books/${id}`);
+      getBook = async (id) =>{
+        const book = await this.getResource(`/books/${id}`);
+          return this._transformBook(book);
       }
 
-      getAllHouses() {
-        return this.getResource('/houses');
+      getAllHouses = async() => {
+        const res = await this.getResource(`/houses/`);
+        return res.map(this._transformHouse);
       }
     
-      getHouse(id){
-          return this.getResource(`/houses/${id}`);
+      getHouse = async (id) => {
+        const house = await this.getResource(`/houses/${id}`);
+        return this._transformBook(house);
+      }
+
+      _extractId = (item) => {
+        const igRegExp = /\/([0-9]*)$/;
+        return item.url.match(igRegExp)[1];
       }
 
       _transformCharacter (char) {
