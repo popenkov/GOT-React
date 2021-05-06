@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import Header from '../header';
 import RandomChar from '../randomChar';
 import ErrorMessage from '../errorMessage';
-import CharacterPage from '../characterPage/'
+import CharacterPage from '../characterPage/';
+import BookPage from '../bookPage/';
+import HousesPage from '../housesPage/'
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
 import gotService from '../../services/gotService';
@@ -68,32 +70,11 @@ export default class App extends Component {
                             <ToggleButton onClick={this.toggleRandomChar}>Toogle randomChar</ToggleButton>
                         </Col>
                     </Row>
+                    
                    <CharacterPage/>
+                   <BookPage/>
+                   <HousesPage/>
                    
-                   <Row>
-                       <Col md='6'>
-                           <ItemList 
-                           onItemSelected={this.onItemSelected}
-                           getData={this.gotService.getAllBooks}
-                           renderItem={(item) => item.name}
-                           />         
-                       </Col>
-                       <Col md='6'>
-                           <CharDetails charId={this.state.selectedChar}/>         
-                       </Col>
-                   </Row>
-
-                   <Row>
-                       <Col md='6'>
-                           <ItemList onItemSelected={this.onItemSelected}
-                           getData={this.gotService.getAllHouses}
-                           renderItem={(item) => `${item.name}`}   /> 
-                                
-                       </Col>
-                       <Col md='6'>
-                           <CharDetails charId={this.state.selectedChar}/>         
-                       </Col>
-                   </Row>
                 </Container>
             </>
         );

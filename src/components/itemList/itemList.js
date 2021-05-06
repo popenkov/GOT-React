@@ -27,8 +27,8 @@ export default class ItemList extends Component {
             return <>
                 <li 
                 key={index} // не забываем создавать ключи. Не самый лучший способ создания.
-                className="list-group-item" // метод выбора персонажа подхватывает ИД, чтобы знать, что показывать. 
-                onClick={() => {this.props.onItemSelected( 41 + index)}}> 
+                className="list-group-item" // метод выбора персонажа подхватывает ИД, чтобы знать, что показывать. //41 + index
+                onClick={() => {this.props.onItemSelected(index)}}> 
                     {label}
                 </li>
             </>

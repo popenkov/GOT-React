@@ -9,12 +9,12 @@ import RowBlock from '../rowBlock'
 
 
 
-export default class CharacterPage extends Component {
+export default class BookPage extends Component {
 
     gotService = new gotService();
 
     state = {
-        selectedChar: 130,
+        selectedBook: 1,
         error: false
     }
 
@@ -26,7 +26,7 @@ export default class CharacterPage extends Component {
 
     onItemSelected = (id) => { //функция получит ИД из события и поместит в стэйт
         this.setState({
-            selectedChar: id
+            selectedBook: id
         })
     }
 
@@ -40,25 +40,25 @@ export default class CharacterPage extends Component {
         const itemList = (
             <ItemList 
                     onItemSelected={this.onItemSelected}
-                    getData={this.gotService.getAllCharacters} 
-                    renderItem={({name, gender}) => `${name} (${gender})`}/>
+                    getData={this.gotService.getAllBooks} 
+                    renderItem={({name}) => name}/>
         )
         
-        const charDetails = (
+        const bookDetails = (
             <ItemDetails 
-                itemId={this.state.selectedChar}
-                getItem={this.gotService.getCharacter}
+                itemId={this.state.selectedBook}
+                getItem={this.gotService.getBook}
                 >
-                <Field field={'gender'} label={'Gender'} />
-                <Field field={'born'} label={'Born'} />
-                <Field field={'died'} label={'Died'} />
-                <Field field={'culture'} label={'Culture'} />
+                <Field field={'authors'} label={'Authors'} />
+                <Field field={'numberOfPages'} label={'Pages'} />
+                <Field field={'isbn'} label={'ISBN'} />
+                <Field field={'released'} label={'Release date'} />
             </ItemDetails>
         )
 
 
         return (
-            <RowBlock left={itemList} right={charDetails}/>
+            <RowBlock left={itemList} right={bookDetails}/>
         ) 
        
     }
