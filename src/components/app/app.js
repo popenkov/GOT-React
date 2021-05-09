@@ -7,9 +7,11 @@ import ErrorMessage from '../errorMessage';
 import CharacterPage from '../characterPage/';
 import BookPage from '../bookPage/';
 import HousesPage from '../housesPage/'
+import BooksItem from '../booksItem/'
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
 import gotService from '../../services/gotService';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 
 const ToggleButton = styled.button`
@@ -59,24 +61,27 @@ export default class App extends Component {
         }
 
         return (
-            <> 
-                <Container>
-                    <Header />
-                </Container>
-                <Container>
-                    <Row>
-                        <Col lg={{size: 5, offset: 0}}>
-                            {showRandom}
-                            <ToggleButton onClick={this.toggleRandomChar}>Toogle randomChar</ToggleButton>
-                        </Col>
-                    </Row>
+            <Router>
+                <div className="app"> 
+                    <Container>
+                        <Header />
+                    </Container>
+                    <Container>
+                        <Row>
+                            <Col lg={{size: 5, offset: 0}}>
+                                {showRandom}
+                                <ToggleButton onClick={this.toggleRandomChar}>Toogle randomChar</ToggleButton>
+                            </Col>
+                        </Row>
+
+                    <Route  path='/characters' component={CharacterPage}/> 
+                    <Route  path='/books' component={BookPage}/>   
+                    <Route  path='/houses' exact component={HousesPage}/>     
+                    <Route  path='/houses/:id' component={}/>  
                     
-                   <CharacterPage/>
-                   <BookPage/>
-                   <HousesPage/>
-                   
-                </Container>
-            </>
+                    </Container>
+                </div>
+            </Router>
         );
     }
 };
